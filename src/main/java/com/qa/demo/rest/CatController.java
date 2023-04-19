@@ -1,6 +1,5 @@
 package com.qa.demo.rest;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -12,31 +11,34 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.service.annotation.PatchExchange;
 
 import com.qa.demo.domain.Cat;
+import com.qa.demo.service.CatService;
 
 @RestController
 public class CatController {
 
-	private List<Cat> cats = new ArrayList<>();
+	private CatService service;
+
+	public CatController(CatService service) {
+		super();
+		this.service = service;
+	}
 
 	@GetMapping("/getAll")
 	public List<Cat> getAll() {
-		return this.cats;
+		return this.service.getAll();
 	}
 
 	@GetMapping("/get/{id}")
 	public Cat getById(@PathVariable int id) {
-		return this.cats.get(id);
+		return this.service.getById(id);
 	}
 
 	@PostMapping("/create")
 	public ResponseEntity<Cat> create(@RequestBody Cat c) {
-		this.cats.add(c);
-		Cat created = this.cats.get(this.cats.size() - 1);
+		Cat created = this.service.create(c);
 		return new ResponseEntity<>(created, HttpStatus.CREATED);
 	}
 
@@ -45,21 +47,11 @@ public class CatController {
 			@RequestParam(name = "length", required = false) Integer length,
 			@RequestParam(name = "hasWhiskers", required = false) Boolean hasWhiskers,
 			@RequestParam(name = "evil", required = false) Boolean evil) {
-		Cat toUpdate = this.cats.get(id);
-
-		if (name != null)
-			toUpdate.setName(name);
-		if (length != null)
-			toUpdate.setLength(length);
-		if (hasWhiskers != null)
-			toUpdate.setHasWhiskers(hasWhiskers);
-		if (evil != null)
-			toUpdate.setEvil(evil);
-		return toUpdate;
+		return this.service.update(id, name, length, hasWhiskers, evil);
 	}
 
 	@DeleteMapping("/remove/{id}")
 	public Cat removeById(@PathVariable int id) {
-		return this.cats.remove(id);
+		return this.service.removeById(id);
 	}
 }
