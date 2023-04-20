@@ -1,5 +1,8 @@
 package com.qa.demo.unit;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
@@ -24,6 +27,33 @@ public class CatServiceDBTest {
 	private CatRepo repo;
 
 	@Test
+	void testCreate() {
+		Cat toCreate = new Cat("barry", false, false, 12);
+		Cat created = new Cat(1, "barry", false, false, 12);
+
+		Mockito.when(this.repo.save(toCreate)).thenReturn(created);
+
+		assertEquals(created, this.service.create(toCreate));
+	}
+
+	@Test
+	void testGet() {
+		int id = 1;
+		Cat c = new Cat(id, "harry", false, false, 16);
+		Mockito.when(this.repo.findById(id)).thenReturn(Optional.of(c));
+
+		assertEquals(c, this.service.getById(id));
+	}
+
+	@Test
+	void testGetAll() {
+		List<Cat> cats = List.of(new Cat(1, "harry", false, false, 16));
+		Mockito.when(this.repo.findAll()).thenReturn(cats);
+
+		assertEquals(cats, this.service.getAll());
+	}
+
+	@Test
 	void testUpdate() {
 		int id = 1;
 		Cat existing = new Cat(id, "Tiddles", true, false, 12);
@@ -31,9 +61,17 @@ public class CatServiceDBTest {
 		Mockito.when(this.repo.findById(id)).thenReturn(Optional.of(existing));
 		Mockito.when(this.repo.save(updated)).thenReturn(updated);
 
-//		import org.junit.jupiter.api.Assertions;
 		Assertions.assertEquals(updated, this.service.update(id, updated.getName(), updated.getLength(),
 				updated.isHasWhiskers(), updated.isEvil()));
+	}
+
+	@Test
+	void testDelete() {
+		int id = 1;
+		Cat c = new Cat(id, "harry", false, false, 16);
+		Mockito.when(this.repo.findById(id)).thenReturn(Optional.of(c));
+
+		assertEquals(c, this.service.removeById(id));
 	}
 
 }
