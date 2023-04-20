@@ -36,6 +36,11 @@ public class CatController {
 		return this.service.getById(id);
 	}
 
+	@GetMapping("/get/name/{name}")
+	public List<Cat> findByName(@PathVariable String name) {
+		return this.service.findByName(name);
+	}
+
 	@PostMapping("/create")
 	public ResponseEntity<Cat> create(@RequestBody Cat c) {
 		Cat created = this.service.create(c);

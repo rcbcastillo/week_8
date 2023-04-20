@@ -15,4 +15,6 @@ public interface CatService {
 	public Cat update(Integer id, String name, Integer length, Boolean hasWhiskers, Boolean evil);
 
 	public Cat removeById(int id);
+
+	public List<Cat> findByName(String name);
 }

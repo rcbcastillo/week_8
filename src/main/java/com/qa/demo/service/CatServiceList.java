@@ -2,11 +2,13 @@ package com.qa.demo.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.qa.demo.domain.Cat;
 
+//@Primary
 @Service
 public class CatServiceList implements CatService {
 
@@ -20,6 +22,12 @@ public class CatServiceList implements CatService {
 	@Override
 	public Cat getById(int id) {
 		return this.cats.get(id);
+	}
+
+	@Override
+	public List<Cat> findByName(String name) {
+		return this.cats.stream().filter(c -> c.getName().equals(name))
+				.sorted((c1, c2) -> c1.getLength() - c2.getLength()).collect(Collectors.toList());
 	}
 
 	@Override

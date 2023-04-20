@@ -2,18 +2,40 @@ package com.qa.demo.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
 public class Cat {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
 	private boolean hasWhiskers;
 	private boolean evil;
 	private Integer length;
+
+	public Cat() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Cat(String name, boolean hasWhiskers, boolean evil, Integer length) {
+		super();
+		this.name = name;
+		this.hasWhiskers = hasWhiskers;
+		this.evil = evil;
+		this.length = length;
+	}
+
+	public Cat(Integer id, String name, boolean hasWhiskers, boolean evil, Integer length) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.hasWhiskers = hasWhiskers;
+		this.evil = evil;
+		this.length = length;
+	}
 
 	public Integer getId() {
 		return id;

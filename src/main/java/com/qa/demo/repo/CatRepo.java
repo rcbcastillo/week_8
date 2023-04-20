@@ -10,5 +10,5 @@ import com.qa.demo.domain.Cat;
 @Repository
 public interface CatRepo extends JpaRepository<Cat, Integer> {
 
-	List<Cat> findByName(String name);
+	List<Cat> findByNameOrderByLengthAsc(String name);
 }

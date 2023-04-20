@@ -31,6 +31,11 @@ public class CatServiceDB implements CatService {
 	}
 
 	@Override
+	public List<Cat> findByName(String name) {
+		return this.repo.findByNameOrderByLengthAsc(name);
+	}
+
+	@Override
 	public Cat create(Cat c) {
 		return this.repo.save(c);
 	}
